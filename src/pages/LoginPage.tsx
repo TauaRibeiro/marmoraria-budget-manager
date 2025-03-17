@@ -53,7 +53,7 @@ const LoginPage = () => {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Marmoraria Tech</CardTitle>
           <CardDescription className="text-center">
-            Entre com suas credenciais para acessar o sistema
+            Área restrita para colaboradores da empresa
           </CardDescription>
         </CardHeader>
         <CardContent>

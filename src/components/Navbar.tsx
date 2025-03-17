@@ -40,11 +40,6 @@ const Navbar = () => {
               Solicitar Orçamento
             </Button>
           </Link>
-          <Link to="/login">
-            <Button variant="outline" className="flex items-center gap-2">
-              <User size={18} /> Área do Cliente
-            </Button>
-          </Link>
         </nav>
 
         {/* Mobile Navigation Toggle */}
@@ -103,16 +98,18 @@ const Navbar = () => {
             >
               Solicitar Orçamento
             </Link>
-            <Link
-              to="/login"
-              className="border border-gray-300 bg-white hover:bg-gray-50 text-marble-700 font-medium px-4 py-2 rounded-md text-center flex items-center justify-center gap-2"
-              onClick={toggleMenu}
-            >
-              <User size={18} /> Área do Cliente
-            </Link>
           </div>
         </div>
       )}
+      
+      {/* Colaborador Link (footer position in both mobile and desktop) */}
+      <div className="bg-gray-100 border-t border-gray-200 py-1 text-right">
+        <div className="container mx-auto px-4">
+          <Link to="/login" className="text-xs text-gray-500 hover:text-primary inline-flex items-center gap-1">
+            <User size={12} /> Área do Colaborador
+          </Link>
+        </div>
+      </div>
     </header>
   );
 };
