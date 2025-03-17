@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,6 +38,11 @@ const Navbar = () => {
           <Link to="/orcamento">
             <Button className="bg-secondary hover:bg-secondary/90 text-white">
               Solicitar Orçamento
+            </Button>
+          </Link>
+          <Link to="/login">
+            <Button variant="outline" className="flex items-center gap-2">
+              <User size={18} /> Área do Cliente
             </Button>
           </Link>
         </nav>
@@ -97,6 +102,13 @@ const Navbar = () => {
               onClick={toggleMenu}
             >
               Solicitar Orçamento
+            </Link>
+            <Link
+              to="/login"
+              className="border border-gray-300 bg-white hover:bg-gray-50 text-marble-700 font-medium px-4 py-2 rounded-md text-center flex items-center justify-center gap-2"
+              onClick={toggleMenu}
+            >
+              <User size={18} /> Área do Cliente
             </Link>
           </div>
         </div>
