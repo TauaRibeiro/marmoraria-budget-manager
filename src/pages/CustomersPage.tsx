@@ -129,14 +129,7 @@ const CustomersPage = () => {
                             size="sm" 
                             onClick={() => navigate(`/dashboard/customers/${customer.id}`)}
                           >
-                            Ver
-                          </Button>
-                          <Button 
-                            variant="outline" 
-                            size="sm" 
-                            onClick={() => navigate(`/dashboard/customers/${customer.id}/edit`)}
-                          >
-                            Editar
+                            Ver e Editar
                           </Button>
                           <Button 
                             variant="outline" 

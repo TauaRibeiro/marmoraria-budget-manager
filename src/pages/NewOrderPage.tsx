@@ -17,9 +17,9 @@ import {
 
 // Dados fictícios para demonstração
 const mockCustomers = [
-  { id: 1, name: 'João Silva', phone: '(11) 98765-4321', email: 'joao@exemplo.com' },
-  { id: 2, name: 'Maria Oliveira', phone: '(11) 91234-5678', email: 'maria@exemplo.com' },
-  { id: 3, name: 'Carlos Santos', phone: '(11) 99876-5432', email: 'carlos@exemplo.com' },
+  { id: 1, name: 'João Silva', phone: '(11) 98765-4321', email: 'joao@exemplo.com', address: 'Rua das Flores, 123 - São Paulo/SP' },
+  { id: 2, name: 'Maria Oliveira', phone: '(11) 91234-5678', email: 'maria@exemplo.com', address: 'Av. Paulista, 1000 - São Paulo/SP' },
+  { id: 3, name: 'Carlos Santos', phone: '(11) 99876-5432', email: 'carlos@exemplo.com', address: 'Rua Augusta, 500 - São Paulo/SP' },
 ];
 
 const mockMaterials = [
@@ -30,12 +30,29 @@ const mockMaterials = [
 
 const NewOrderPage = () => {
   const [selectedCustomer, setSelectedCustomer] = useState('');
-  const [selectedMaterials, setSelectedMaterials] = useState<{ id: string; quantity: number }[]>([]);
+  const [selectedMaterials, setSelectedMaterials] = useState<{ 
+    id: string; 
+    quantity: number;
+    width: number;
+    height: number;
+    depth?: number;
+  }[]>([]);
   const [description, setDescription] = useState('');
   const [value, setValue] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
   const [status, setStatus] = useState('Aberto');
   const [isLoading, setIsLoading] = useState(false);
+  
+  // Novos campos
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    address: ''
+  });
+  const [shippingCost, setShippingCost] = useState('');
+  const [discount, setDiscount] = useState('');
+  const [installationCost, setInstallationCost] = useState('');
   
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -53,8 +70,36 @@ const NewOrderPage = () => {
     }
   }, [navigate, toast]);
 
+  // Atualizar informações do cliente quando um cliente é selecionado
+  useEffect(() => {
+    if (selectedCustomer) {
+      const customer = mockCustomers.find(c => c.id.toString() === selectedCustomer);
+      if (customer) {
+        setCustomerInfo({
+          name: customer.name,
+          phone: customer.phone,
+          email: customer.email,
+          address: customer.address
+        });
+      }
+    } else {
+      setCustomerInfo({
+        name: '',
+        phone: '',
+        email: '',
+        address: ''
+      });
+    }
+  }, [selectedCustomer]);
+
   const addMaterial = () => {
-    setSelectedMaterials([...selectedMaterials, { id: '', quantity: 1 }]);
+    setSelectedMaterials([...selectedMaterials, { 
+      id: '', 
+      quantity: 1,
+      width: 0,
+      height: 0,
+      depth: 0
+    }]);
   };
 
   const removeMaterial = (index: number) => {
@@ -63,13 +108,51 @@ const NewOrderPage = () => {
     setSelectedMaterials(updatedMaterials);
   };
 
-  const updateMaterial = (index: number, field: 'id' | 'quantity', value: string | number) => {
+  const updateMaterial = (index: number, field: string, value: string | number) => {
     const updatedMaterials = [...selectedMaterials];
     updatedMaterials[index] = { 
       ...updatedMaterials[index], 
       [field]: value 
     };
     setSelectedMaterials(updatedMaterials);
+  };
+
+  // Calcular o subtotal de um material
+  const calculateSubtotal = (materialId: string, quantity: number, width: number, height: number) => {
+    const material = mockMaterials.find(m => m.id.toString() === materialId);
+    if (!material) return 0;
+    
+    const area = width * height;
+    return material.price * area * quantity;
+  };
+
+  // Calcular o total do orçamento
+  const calculateTotal = () => {
+    let total = 0;
+    
+    // Somar valor dos materiais
+    selectedMaterials.forEach(material => {
+      if (material.id) {
+        total += calculateSubtotal(material.id, material.quantity, material.width, material.height);
+      }
+    });
+    
+    // Adicionar frete
+    if (shippingCost) {
+      total += parseFloat(shippingCost);
+    }
+    
+    // Adicionar instalação
+    if (installationCost) {
+      total += parseFloat(installationCost);
+    }
+    
+    // Aplicar desconto
+    if (discount) {
+      total -= parseFloat(discount);
+    }
+    
+    return total.toFixed(2);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -138,6 +221,35 @@ const NewOrderPage = () => {
                 </Button>
               </div>
 
+              {/* Informações do Cliente */}
+              {selectedCustomer && (
+                <Card className="border border-gray-200">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm">Informações do Cliente</CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label className="text-xs text-gray-500">Nome</Label>
+                        <p className="text-sm">{customerInfo.name}</p>
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-500">Telefone</Label>
+                        <p className="text-sm">{customerInfo.phone}</p>
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-500">Email</Label>
+                        <p className="text-sm">{customerInfo.email}</p>
+                      </div>
+                      <div>
+                        <Label className="text-xs text-gray-500">Endereço</Label>
+                        <p className="text-sm">{customerInfo.address}</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Materiais */}
               <div className="space-y-2">
                 <div className="flex justify-between items-center">
@@ -160,7 +272,7 @@ const NewOrderPage = () => {
 
                 {selectedMaterials.map((material, index) => (
                   <div key={index} className="grid grid-cols-12 gap-4 items-end py-2 border-b border-gray-100">
-                    <div className="col-span-5">
+                    <div className="col-span-12 md:col-span-3">
                       <Label htmlFor={`material-${index}`}>Material</Label>
                       <Select 
                         value={material.id} 
@@ -178,8 +290,8 @@ const NewOrderPage = () => {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="col-span-3">
-                      <Label htmlFor={`quantity-${index}`}>Quantidade</Label>
+                    <div className="col-span-4 md:col-span-1">
+                      <Label htmlFor={`quantity-${index}`}>Qtd</Label>
                       <Input
                         id={`quantity-${index}`}
                         type="number"
@@ -188,16 +300,47 @@ const NewOrderPage = () => {
                         onChange={(e) => updateMaterial(index, 'quantity', parseInt(e.target.value))}
                       />
                     </div>
-                    <div className="col-span-3">
-                      <Label>Subtotal</Label>
+                    <div className="col-span-4 md:col-span-2">
+                      <Label htmlFor={`width-${index}`}>Largura (m)</Label>
+                      <Input
+                        id={`width-${index}`}
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={material.width || ''}
+                        onChange={(e) => updateMaterial(index, 'width', parseFloat(e.target.value))}
+                      />
+                    </div>
+                    <div className="col-span-4 md:col-span-2">
+                      <Label htmlFor={`height-${index}`}>Altura (m)</Label>
+                      <Input
+                        id={`height-${index}`}
+                        type="number"
+                        step="0.01"
+                        min="0"
+                        value={material.height || ''}
+                        onChange={(e) => updateMaterial(index, 'height', parseFloat(e.target.value))}
+                      />
+                    </div>
+                    <div className="col-span-8 md:col-span-2">
+                      <Label>Área Total</Label>
                       <div className="h-10 flex items-center px-3 border border-input rounded-md bg-background text-foreground">
-                        {material.id && mockMaterials.find(m => m.id.toString() === material.id) 
-                          ? `R$ ${(mockMaterials.find(m => m.id.toString() === material.id)!.price * material.quantity).toFixed(2)}`
+                        {material.width && material.height 
+                          ? `${(material.width * material.height * material.quantity).toFixed(2)} m²`
                           : '-'
                         }
                       </div>
                     </div>
-                    <div className="col-span-1">
+                    <div className="col-span-4 md:col-span-1">
+                      <Label>Subtotal</Label>
+                      <div className="h-10 flex items-center px-3 border border-input rounded-md bg-background text-foreground">
+                        {material.id && material.width && material.height 
+                          ? `R$ ${calculateSubtotal(material.id, material.quantity, material.width, material.height).toFixed(2)}`
+                          : '-'
+                        }
+                      </div>
+                    </div>
+                    <div className="col-span-12 md:col-span-1 flex justify-end">
                       <Button 
                         type="button" 
                         variant="outline" 
@@ -224,17 +367,53 @@ const NewOrderPage = () => {
                 />
               </div>
 
+              {/* Custos Adicionais */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <Label htmlFor="shippingCost">Valor do Frete (R$)</Label>
+                  <Input
+                    id="shippingCost"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    placeholder="0,00"
+                    value={shippingCost}
+                    onChange={(e) => setShippingCost(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="installationCost">Valor da Instalação (R$)</Label>
+                  <Input
+                    id="installationCost"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    placeholder="0,00"
+                    value={installationCost}
+                    onChange={(e) => setInstallationCost(e.target.value)}
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="discount">Desconto (R$)</Label>
+                  <Input
+                    id="discount"
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    placeholder="0,00"
+                    value={discount}
+                    onChange={(e) => setDiscount(e.target.value)}
+                  />
+                </div>
+              </div>
+
               {/* Valor e Data */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <Label htmlFor="value">Valor Estimado (R$)</Label>
-                  <Input
-                    id="value"
-                    type="text"
-                    placeholder="0,00"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                  />
+                  <Label htmlFor="value">Valor Total Estimado (R$)</Label>
+                  <div className="h-10 flex items-center px-3 border border-input rounded-md bg-background text-foreground font-bold">
+                    R$ {calculateTotal()}
+                  </div>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="deliveryDate">Data de Entrega</Label>

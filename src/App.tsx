@@ -13,7 +13,9 @@ import DashboardPage from "./pages/DashboardPage";
 import NewOrderPage from "./pages/NewOrderPage";
 import OrderEditPage from "./pages/OrderEditPage";
 import CustomersPage from "./pages/CustomersPage";
+import CustomerDetailPage from "./pages/CustomerDetailPage";
 import MaterialsPage from "./pages/MaterialsPage";
+import MaterialDetailPage from "./pages/MaterialDetailPage";
 
 const queryClient = new QueryClient();
 
@@ -36,12 +38,11 @@ const App = () => (
           <Route path="/dashboard/orders/:id" element={<DashboardPage />} />
           <Route path="/dashboard/orders/:id/edit" element={<OrderEditPage />} />
           <Route path="/dashboard/customers" element={<CustomersPage />} />
-          <Route path="/dashboard/customers/new" element={<CustomersPage />} />
-          <Route path="/dashboard/customers/:id" element={<CustomersPage />} />
-          <Route path="/dashboard/customers/:id/edit" element={<CustomersPage />} />
+          <Route path="/dashboard/customers/new" element={<CustomerDetailPage />} />
+          <Route path="/dashboard/customers/:id" element={<CustomerDetailPage />} />
           <Route path="/dashboard/materials" element={<MaterialsPage />} />
-          <Route path="/dashboard/materials/new" element={<MaterialsPage />} />
-          <Route path="/dashboard/materials/:id/edit" element={<MaterialsPage />} />
+          <Route path="/dashboard/materials/new" element={<MaterialDetailPage />} />
+          <Route path="/dashboard/materials/:id/edit" element={<MaterialDetailPage />} />
           
           {/* Rota de fallback */}
           <Route path="*" element={<NotFound />} />
