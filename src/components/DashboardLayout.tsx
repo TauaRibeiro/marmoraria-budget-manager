@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { 
@@ -8,7 +7,8 @@ import {
   Package, 
   LogOut, 
   Menu, 
-  X 
+  X,
+  Tags 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
@@ -61,6 +61,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       href: '/dashboard/materials',
       onClick: () => navigate('/dashboard/materials')
     },
+    { 
+      icon: Tags, 
+      label: 'Status', 
+      href: '/dashboard/status',
+      onClick: () => navigate('/dashboard/status')
+    },
   ];
 
   return (
@@ -90,8 +96,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           {menuItems.map((item, index) => (
             <Button
               key={index}
-              variant={isActive(item.href) ? "secondary" : "ghost"}
-              className={`flex items-center ${sidebarOpen ? 'justify-start px-4' : 'justify-center'} py-2 my-1 mx-2`}
+              variant="ghost"
+              className={`flex items-center ${sidebarOpen ? 'justify-start px-4' : 'justify-center'} py-2 my-1 mx-2 ${isActive(item.href) ? 'bg-gray-100' : ''}`}
               onClick={item.onClick}
             >
               <item.icon size={20} />
@@ -117,8 +123,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           {menuItems.map((item, index) => (
             <Button
               key={index}
-              variant={isActive(item.href) ? "secondary" : "ghost"}
-              className="flex flex-col items-center py-2"
+              variant="ghost"
+              className={`flex flex-col items-center py-2 ${isActive(item.href) ? 'bg-gray-100' : ''}`}
               onClick={item.onClick}
             >
               <item.icon size={20} />
@@ -184,8 +190,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             {menuItems.map((item, index) => (
               <Button
                 key={index}
-                variant={isActive(item.href) ? "secondary" : "ghost"}
-                className="flex items-center justify-start px-4 py-2 my-1"
+                variant="ghost"
+                className={`flex items-center justify-start px-4 py-2 my-1 ${isActive(item.href) ? 'bg-gray-100' : ''}`}
                 onClick={() => {
                   item.onClick();
                   const drawer = document.getElementById('mobile-drawer');

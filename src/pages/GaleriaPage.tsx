@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Navbar from '@/components/Navbar';
 import { Card, CardContent } from '@/components/ui/card';
@@ -42,6 +41,18 @@ const GaleriaPage = () => {
       title: 'Escada em Granito',
       description: 'Escada residencial em Granito Cinza Corumbá.',
       image: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=640',
+    },
+    {
+      id: 7,
+      title: 'Lavabo com Acabamento em Mármore',
+      description: 'Lavabo residencial com acabamento em Mármore Carrara.',
+      image: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=640',
+    },
+    {
+      id: 8,
+      title: 'Banheiro com Revestimento em Granito',
+      description: 'Banheiro com revestimento completo em Granito Preto São Gabriel.',
+      image: 'https://images.unsplash.com/photo-1620626011761-996317b8d101?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=640',
     },
   ];
 

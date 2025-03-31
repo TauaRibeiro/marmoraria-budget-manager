@@ -2,13 +2,17 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User } from "lucide-react";
+import { Menu, X, User, Phone } from "lucide-react";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleWhatsAppContact = () => {
+    window.open("https://wa.me/5500000000000", "_blank");
   };
 
   return (
@@ -32,9 +36,13 @@ const Navbar = () => {
           <Link to="/galeria" className="text-marble-700 hover:text-secondary font-medium transition-colors">
             Galeria
           </Link>
-          <Link to="/contato" className="text-marble-700 hover:text-secondary font-medium transition-colors">
+          <Button 
+            onClick={handleWhatsAppContact}
+            variant="ghost" 
+            className="text-marble-700 hover:text-secondary font-medium transition-colors p-0"
+          >
             Contato
-          </Link>
+          </Button>
           <div className="flex items-center space-x-2">
             <Link to="/orcamento">
               <Button className="bg-secondary hover:bg-secondary/90 text-white flex items-center space-x-2">
@@ -91,13 +99,17 @@ const Navbar = () => {
             >
               Galeria
             </Link>
-            <Link
-              to="/contato"
-              className="text-marble-700 hover:text-secondary font-medium px-4 py-2 rounded-md hover:bg-gray-100"
-              onClick={toggleMenu}
+            <Button
+              onClick={() => {
+                handleWhatsAppContact();
+                toggleMenu();
+              }}
+              className="text-marble-700 hover:text-secondary font-medium px-4 py-2 rounded-md hover:bg-gray-100 text-left flex items-center"
+              variant="ghost"
             >
+              <Phone className="mr-2" size={16} />
               Contato
-            </Link>
+            </Button>
             <Link
               to="/orcamento"
               className="bg-secondary hover:bg-secondary/90 text-white font-medium px-4 py-2 rounded-md text-center"

@@ -17,6 +17,9 @@ import CustomerDetailPage from "./pages/CustomerDetailPage";
 import MaterialsPage from "./pages/MaterialsPage";
 import MaterialDetailPage from "./pages/MaterialDetailPage";
 import GaleriaPage from "./pages/GaleriaPage";
+import SobrePage from "./pages/SobrePage";
+import ServicosPage from "./pages/ServicosPage";
+import StatusPage from "./pages/StatusPage";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +35,8 @@ const App = () => (
           <Route path="/orcamento" element={<OrcamentoPage />} />
           <Route path="/contato" element={<ContatoPage />} />
           <Route path="/galeria" element={<GaleriaPage />} />
+          <Route path="/sobre" element={<SobrePage />} />
+          <Route path="/servicos" element={<ServicosPage />} />
           <Route path="/login" element={<LoginPage />} />
           
           {/* Páginas do dashboard (protegidas) */}
@@ -45,6 +50,7 @@ const App = () => (
           <Route path="/dashboard/materials" element={<MaterialsPage />} />
           <Route path="/dashboard/materials/new" element={<MaterialDetailPage />} />
           <Route path="/dashboard/materials/:id/edit" element={<MaterialDetailPage />} />
+          <Route path="/dashboard/status" element={<StatusPage />} />
           
           {/* Rota de fallback */}
           <Route path="*" element={<NotFound />} />
