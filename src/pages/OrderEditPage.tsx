@@ -8,12 +8,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import DashboardLayout from '@/components/DashboardLayout';
+import { Printer } from 'lucide-react';
 
 // Mock data - would be replaced with actual API calls
 const mockCustomers = [
-  { id: 1, name: 'João Silva', phone: '(11) 99999-1234', email: 'joao@example.com' },
-  { id: 2, name: 'Maria Oliveira', phone: '(11) 98765-4321', email: 'maria@example.com' },
-  { id: 3, name: 'Carlos Santos', phone: '(11) 91234-5678', email: 'carlos@example.com' },
+  { id: 1, name: 'João Silva', phone: '(11) 99999-1234', email: 'joao@example.com', address: 'Rua das Flores, 123 - São Paulo/SP' },
+  { id: 2, name: 'Maria Oliveira', phone: '(11) 98765-4321', email: 'maria@example.com', address: 'Av. Principal, 456 - São Paulo/SP' },
+  { id: 3, name: 'Carlos Santos', phone: '(11) 91234-5678', email: 'carlos@example.com', address: 'Rua Secundária, 789 - São Paulo/SP' },
 ];
 
 const mockMaterials = [
@@ -33,8 +34,11 @@ const getMockOrder = (id: string) => {
       { id: 1, materialId: 1, description: 'Bancada de cozinha', length: 2.5, width: 0.6, quantity: 1, price: 525 },
       { id: 2, materialId: 2, description: 'Soleira', length: 1.2, width: 0.2, quantity: 2, price: 134.4 },
     ],
+    shippingCost: 150,
+    installationCost: 300,
+    discount: 100,
     notes: 'Cliente solicitou entrega para o fim de semana.',
-    total: 659.4
+    total: 1009.4
   };
 };
 
@@ -54,6 +58,15 @@ const OrderEditPage = () => {
   const [newItemLength, setNewItemLength] = useState('');
   const [newItemWidth, setNewItemWidth] = useState('');
   const [newItemQuantity, setNewItemQuantity] = useState('1');
+  const [shippingCost, setShippingCost] = useState('');
+  const [installationCost, setInstallationCost] = useState('');
+  const [discount, setDiscount] = useState('');
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    address: ''
+  });
 
   useEffect(() => {
     // Check authentication
@@ -76,6 +89,20 @@ const OrderEditPage = () => {
       setStatus(orderData.status);
       setNotes(orderData.notes);
       setItems(orderData.items);
+      setShippingCost(orderData.shippingCost?.toString() || '');
+      setInstallationCost(orderData.installationCost?.toString() || '');
+      setDiscount(orderData.discount?.toString() || '');
+      
+      // Fetch customer info
+      const customer = mockCustomers.find(c => c.id === orderData.customerId);
+      if (customer) {
+        setCustomerInfo({
+          name: customer.name,
+          phone: customer.phone,
+          email: customer.email,
+          address: customer.address
+        });
+      }
     }
   }, [id, navigate, toast]);
 
@@ -128,8 +155,21 @@ const OrderEditPage = () => {
     setItems(items.filter(item => item.id !== itemId));
   };
 
-  const calculateTotal = () => {
+  const calculateSubtotal = () => {
     return items.reduce((sum, item) => sum + item.price, 0);
+  };
+
+  const calculateTotal = () => {
+    let total = calculateSubtotal();
+    
+    // Add shipping and installation costs
+    if (shippingCost) total += parseFloat(shippingCost);
+    if (installationCost) total += parseFloat(installationCost);
+    
+    // Subtract discount
+    if (discount) total -= parseFloat(discount);
+    
+    return total;
   };
 
   const handleSave = () => {
@@ -162,6 +202,192 @@ const OrderEditPage = () => {
     return material ? material.name : 'Material não encontrado';
   };
 
+  const handlePrint = () => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      toast({
+        title: "Erro ao imprimir",
+        description: "Não foi possível abrir a janela de impressão",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Find customer
+    const customer = mockCustomers.find(c => c.id.toString() === customerId);
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Orçamento #${id}</title>
+        <meta charset="utf-8">
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            font-size: 12px;
+            color: #333;
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 15px;
+          }
+          .title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+          }
+          .info-block {
+            margin-bottom: 15px;
+          }
+          .info-block h3 {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 3px;
+          }
+          .info-block p {
+            margin: 5px 0;
+          }
+          .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+          }
+          table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+          }
+          table, th, td {
+            border: 1px solid #ddd;
+          }
+          th, td {
+            padding: 8px;
+            text-align: left;
+          }
+          th {
+            background-color: #f5f5f5;
+          }
+          .summary {
+            margin-top: 20px;
+            text-align: right;
+          }
+          .summary div {
+            margin-bottom: 5px;
+          }
+          .total {
+            font-weight: bold;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
+          }
+          .footer {
+            margin-top: 30px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
+            font-size: 10px;
+          }
+          @media print {
+            @page {
+              size: A4;
+              margin: 15mm 10mm;
+            }
+            body {
+              padding: 0;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <div class="title">MARMORARIA TECH</div>
+          <div>Rua Exemplo, 123 - Bairro - Cidade/UF</div>
+          <div>Tel: (11) 1234-5678 | Email: contato@marmorariatech.com</div>
+        </div>
+        
+        <div class="title">ORÇAMENTO #${id}</div>
+        <div>Data: ${new Date().toLocaleDateString()}</div>
+        <div>Status: ${status}</div>
+        
+        <div class="info-grid">
+          <div class="info-block">
+            <h3>Informações do Cliente</h3>
+            <p><strong>Nome:</strong> ${customer?.name || '-'}</p>
+            <p><strong>Telefone:</strong> ${customer?.phone || '-'}</p>
+            <p><strong>Email:</strong> ${customer?.email || '-'}</p>
+            <p><strong>Endereço:</strong> ${customer?.address || '-'}</p>
+          </div>
+          
+          <div class="info-block">
+            <h3>Observações</h3>
+            <p>${notes || 'Nenhuma observação'}</p>
+          </div>
+        </div>
+        
+        <div class="info-block">
+          <h3>Itens do Orçamento</h3>
+          <table>
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Material</th>
+                <th>Dimensões</th>
+                <th>Qtd</th>
+                <th>Valor Unit.</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${items.map((item, index) => `
+                <tr>
+                  <td>${index + 1}. ${item.description}</td>
+                  <td>${getMaterialName(item.materialId)}</td>
+                  <td>${item.length}m × ${item.width}m</td>
+                  <td>${item.quantity}</td>
+                  <td>R$ ${(item.price / item.quantity).toFixed(2)}</td>
+                  <td>R$ ${item.price.toFixed(2)}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          
+          <div class="summary">
+            <div><strong>Subtotal:</strong> R$ ${calculateSubtotal().toFixed(2)}</div>
+            ${shippingCost ? `<div><strong>Frete:</strong> R$ ${parseFloat(shippingCost).toFixed(2)}</div>` : ''}
+            ${installationCost ? `<div><strong>Instalação:</strong> R$ ${parseFloat(installationCost).toFixed(2)}</div>` : ''}
+            ${discount ? `<div><strong>Desconto:</strong> R$ ${parseFloat(discount).toFixed(2)}</div>` : ''}
+            <div class="total"><strong>TOTAL:</strong> R$ ${calculateTotal().toFixed(2)}</div>
+          </div>
+        </div>
+        
+        <div class="footer">
+          <p>Este orçamento tem validade de 15 dias a partir da data de emissão.</p>
+          <p>Marmoraria Tech | CNPJ: 00.000.000/0001-00</p>
+        </div>
+        
+        <script>
+          window.onload = function() {
+            setTimeout(function() {
+              window.print();
+              setTimeout(function() {
+                window.close();
+              }, 100);
+            }, 500);
+          }
+        </script>
+      </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+  };
+
   if (!order) {
     return (
       <DashboardLayout>
@@ -182,6 +408,9 @@ const OrderEditPage = () => {
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => navigate('/dashboard')}>
               Cancelar
+            </Button>
+            <Button variant="outline" onClick={handlePrint}>
+              <Printer className="mr-2" size={16} /> Imprimir
             </Button>
             <Button onClick={handleSave} disabled={isLoading}>
               {isLoading ? "Salvando..." : "Salvar Orçamento"}
@@ -227,6 +456,36 @@ const OrderEditPage = () => {
                     </Select>
                   </div>
                 </div>
+
+                {/* Customer Information */}
+                {customerId && (
+                  <Card className="border border-gray-200">
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-sm">Informações do Cliente</CardTitle>
+                    </CardHeader>
+                    <CardContent className="pt-0">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <Label className="text-xs text-gray-500">Nome</Label>
+                          <p className="text-sm">{customerInfo.name}</p>
+                        </div>
+                        <div>
+                          <Label className="text-xs text-gray-500">Telefone</Label>
+                          <p className="text-sm">{customerInfo.phone}</p>
+                        </div>
+                        <div>
+                          <Label className="text-xs text-gray-500">Email</Label>
+                          <p className="text-sm">{customerInfo.email}</p>
+                        </div>
+                        <div>
+                          <Label className="text-xs text-gray-500">Endereço</Label>
+                          <p className="text-sm">{customerInfo.address}</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
                 <div className="space-y-2">
                   <Label htmlFor="notes">Observações</Label>
                   <Input
@@ -235,6 +494,46 @@ const OrderEditPage = () => {
                     onChange={(e) => setNotes(e.target.value)}
                     placeholder="Observações adicionais sobre o orçamento"
                   />
+                </div>
+
+                {/* Additional Cost Fields */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="shippingCost">Valor do Frete (R$)</Label>
+                    <Input
+                      id="shippingCost"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={shippingCost}
+                      onChange={(e) => setShippingCost(e.target.value)}
+                      placeholder="0.00"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="installationCost">Valor da Instalação (R$)</Label>
+                    <Input
+                      id="installationCost"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={installationCost}
+                      onChange={(e) => setInstallationCost(e.target.value)}
+                      placeholder="0.00"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="discount">Desconto (R$)</Label>
+                    <Input
+                      id="discount"
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={discount}
+                      onChange={(e) => setDiscount(e.target.value)}
+                      placeholder="0.00"
+                    />
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -248,14 +547,35 @@ const OrderEditPage = () => {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span>Subtotal:</span>
-                  <span>R$ {calculateTotal().toFixed(2)}</span>
+                  <span>R$ {calculateSubtotal().toFixed(2)}</span>
                 </div>
+                {parseFloat(shippingCost) > 0 && (
+                  <div className="flex justify-between">
+                    <span>Frete:</span>
+                    <span>R$ {parseFloat(shippingCost).toFixed(2)}</span>
+                  </div>
+                )}
+                {parseFloat(installationCost) > 0 && (
+                  <div className="flex justify-between">
+                    <span>Instalação:</span>
+                    <span>R$ {parseFloat(installationCost).toFixed(2)}</span>
+                  </div>
+                )}
+                {parseFloat(discount) > 0 && (
+                  <div className="flex justify-between">
+                    <span>Desconto:</span>
+                    <span>- R$ {parseFloat(discount).toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="border-t pt-4 flex justify-between font-bold">
                   <span>Total:</span>
                   <span>R$ {calculateTotal().toFixed(2)}</span>
                 </div>
                 <Button className="w-full" onClick={handleSave} disabled={isLoading}>
                   {isLoading ? "Salvando..." : "Salvar Orçamento"}
+                </Button>
+                <Button variant="outline" className="w-full" onClick={handlePrint}>
+                  <Printer className="mr-2" size={16} /> Imprimir Orçamento
                 </Button>
               </div>
             </CardContent>
@@ -278,7 +598,7 @@ const OrderEditPage = () => {
                     <SelectContent>
                       {mockMaterials.map(material => (
                         <SelectItem key={material.id} value={material.id.toString()}>
-                          {material.name}
+                          {material.name} - R$ {material.price.toFixed(2)}/m²
                         </SelectItem>
                       ))}
                     </SelectContent>

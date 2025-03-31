@@ -16,6 +16,7 @@ import CustomersPage from "./pages/CustomersPage";
 import CustomerDetailPage from "./pages/CustomerDetailPage";
 import MaterialsPage from "./pages/MaterialsPage";
 import MaterialDetailPage from "./pages/MaterialDetailPage";
+import GaleriaPage from "./pages/GaleriaPage";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/orcamento" element={<OrcamentoPage />} />
           <Route path="/contato" element={<ContatoPage />} />
+          <Route path="/galeria" element={<GaleriaPage />} />
           <Route path="/login" element={<LoginPage />} />
           
           {/* Páginas do dashboard (protegidas) */}

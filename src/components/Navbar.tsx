@@ -37,8 +37,8 @@ const Navbar = () => {
           </Link>
           <div className="flex items-center space-x-2">
             <Link to="/orcamento">
-              <Button className="bg-secondary hover:bg-secondary/90 text-white">
-                Solicitar Orçamento
+              <Button className="bg-secondary hover:bg-secondary/90 text-white flex items-center space-x-2">
+                <span>Solicitar Orçamento</span>
               </Button>
             </Link>
             <Link to="/login">

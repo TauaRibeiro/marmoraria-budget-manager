@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   LayoutDashboard, 
   Users, 
@@ -20,6 +20,7 @@ interface DashboardLayoutProps {
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
   const { toast } = useToast();
 
   const handleLogout = () => {
@@ -29,6 +30,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
       description: "Você saiu do sistema com sucesso",
     });
     navigate('/login');
+  };
+
+  const isActive = (path: string) => {
+    return location.pathname.startsWith(path);
   };
 
   const menuItems = [
@@ -41,8 +46,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
     { 
       icon: FileText, 
       label: 'Orçamentos', 
-      href: '/dashboard/orders',
-      onClick: () => navigate('/dashboard/orders')
+      href: '/dashboard',
+      onClick: () => navigate('/dashboard')
     },
     { 
       icon: Users, 
@@ -85,7 +90,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           {menuItems.map((item, index) => (
             <Button
               key={index}
-              variant="ghost"
+              variant={isActive(item.href) ? "secondary" : "ghost"}
               className={`flex items-center ${sidebarOpen ? 'justify-start px-4' : 'justify-center'} py-2 my-1 mx-2`}
               onClick={item.onClick}
             >
@@ -112,7 +117,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
           {menuItems.map((item, index) => (
             <Button
               key={index}
-              variant="ghost"
+              variant={isActive(item.href) ? "secondary" : "ghost"}
               className="flex flex-col items-center py-2"
               onClick={item.onClick}
             >
@@ -179,7 +184,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => {
             {menuItems.map((item, index) => (
               <Button
                 key={index}
-                variant="ghost"
+                variant={isActive(item.href) ? "secondary" : "ghost"}
                 className="flex items-center justify-start px-4 py-2 my-1"
                 onClick={() => {
                   item.onClick();
