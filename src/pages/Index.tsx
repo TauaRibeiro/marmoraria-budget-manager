@@ -10,7 +10,7 @@ const Index = () => {
       <main className="flex-grow bg-slate-500">
         {/* Hero Section with luxury marble gradient background */}
         <section className="relative bg-gradient-to-r from-marble-beige to-marble-gold py-20 md:py-28 bg-slate-500">
-          <div className="container mx-auto px-4 bg-slate-100 py-0">
+          <div className="container mx-auto px-4 py-0 bg-slate-500">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-marble-900">
                 Transformamos Pedras em Arte para seu Lar
@@ -36,7 +36,7 @@ const Index = () => {
         </section>
 
         {/* Services Section */}
-        <section className="py-16 md:py-24">
+        <section className="py-16 md:py-24 bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-marble-800">
@@ -103,7 +103,7 @@ const Index = () => {
         </section>
 
         {/* Why Choose Us Section with marble background */}
-        <section className="py-16 md:py-24 bg-marble-cream">
+        <section className="py-16 md:py-24 bg-marble-cream bg-gray-50">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-marble-800">
