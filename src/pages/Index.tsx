@@ -1,19 +1,16 @@
-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Phone } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 const Index = () => {
-  return (
-    <div className="flex flex-col min-h-screen">
+  return <div className="flex flex-col min-h-screen">
       <Navbar />
       
       <main className="flex-grow">
         {/* Hero Section with luxury marble gradient background */}
-        <section className="relative bg-gradient-to-r from-marble-beige to-marble-gold py-20 md:py-28">
-          <div className="container mx-auto px-4">
+        <section className="relative bg-gradient-to-r from-marble-beige to-marble-gold py-20 md:py-28 bg-slate-500">
+          <div className="container mx-auto px-4 bg-slate-100 py-0">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-marble-900">
                 Transformamos Pedras em Arte para seu Lar
@@ -194,8 +191,6 @@ const Index = () => {
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
