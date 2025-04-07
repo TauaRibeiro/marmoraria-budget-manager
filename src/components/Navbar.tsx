@@ -21,7 +21,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
           <span className="text-2xl font-heading font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            StoneWorks
+            Marmoraria Tech
           </span>
         </Link>
 
@@ -85,7 +85,7 @@ const Navbar = () => {
           </Button>
           <div className="flex items-center space-x-2">
             <Link to="/orcamento">
-              <Button className="bg-primary hover:bg-primary/90 text-white text-sm rounded-full px-5 py-1 h-auto">
+              <Button className="bg-secondary hover:bg-secondary/90 text-white text-sm rounded-full px-5 py-1 h-auto">
                 Solicitar Orçamento
               </Button>
             </Link>
@@ -181,7 +181,7 @@ const Navbar = () => {
             </Button>
             <Link
               to="/orcamento"
-              className="bg-primary hover:bg-primary/90 text-white font-medium px-4 py-2 rounded-md text-center"
+              className="bg-secondary hover:bg-secondary/90 text-white font-medium px-4 py-2 rounded-md text-center"
               onClick={toggleMenu}
             >
               Solicitar Orçamento
