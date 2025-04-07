@@ -48,63 +48,67 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">Marmoraria Tech</CardTitle>
-          <CardDescription className="text-center">
-            Área restrita para colaboradores da empresa
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input 
-                id="email"
-                type="email" 
-                placeholder="seu@email.com" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <Label htmlFor="password">Senha</Label>
-                <a 
-                  href="#" 
-                  className="text-sm text-primary hover:underline"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    toast({
-                      title: "Recuperação de senha",
-                      description: "Funcionalidade a ser implementada",
-                    });
-                  }}
-                >
-                  Esqueceu a senha?
-                </a>
+    <div className="flex items-center justify-center min-h-screen bg-marble-100">
+      <div className="w-full max-w-md p-4">
+        <Card className="border-t-4 border-secondary shadow-lg">
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl font-bold text-center">Marmoraria Tech</CardTitle>
+            <CardDescription className="text-center">
+              Área restrita para colaboradores da empresa
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
+                <Input 
+                  id="email"
+                  type="email" 
+                  placeholder="seu@email.com" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="border-marble-300 focus:border-secondary focus:ring-secondary"
+                />
               </div>
-              <Input 
-                id="password"
-                type="password" 
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Entrando..." : "Entrar"}
-            </Button>
-          </form>
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <p className="text-xs text-center text-gray-500">
-            &copy; {new Date().getFullYear()} Marmoraria Tech. Todos os direitos reservados.
-          </p>
-        </CardFooter>
-      </Card>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="password">Senha</Label>
+                  <a 
+                    href="#" 
+                    className="text-sm text-accent hover:underline"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toast({
+                        title: "Recuperação de senha",
+                        description: "Funcionalidade a ser implementada",
+                      });
+                    }}
+                  >
+                    Esqueceu a senha?
+                  </a>
+                </div>
+                <Input 
+                  id="password"
+                  type="password" 
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="border-marble-300 focus:border-secondary focus:ring-secondary"
+                />
+              </div>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? "Entrando..." : "Entrar"}
+              </Button>
+            </form>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <p className="text-xs text-center text-gray-500">
+              &copy; {new Date().getFullYear()} Marmoraria Tech. Todos os direitos reservados.
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
     </div>
   );
 };
