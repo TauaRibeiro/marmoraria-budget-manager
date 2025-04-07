@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -113,7 +112,7 @@ const OrcamentoPage = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       
-      <main className="flex-grow py-12 md:py-20 bg-marble-50">
+      <main className="flex-grow py-12 md:py-20 bg-marble-cream">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
             <div className="text-center mb-12">
@@ -126,7 +125,7 @@ const OrcamentoPage = () => {
               </p>
             </div>
             
-            <Card className="shadow-lg">
+            <Card className="shadow-lg border-t-4 border-t-secondary">
               <CardContent className="p-6 md:p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

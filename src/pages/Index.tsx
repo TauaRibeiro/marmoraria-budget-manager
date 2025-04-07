@@ -11,14 +11,14 @@ const Index = () => {
       <Navbar />
       
       <main className="flex-grow">
-        {/* Hero Section */}
-        <section className="relative bg-marble-100 marble-texture py-20 md:py-28">
+        {/* Hero Section with luxury marble gradient background */}
+        <section className="relative bg-gradient-to-r from-marble-beige to-marble-gold py-20 md:py-28">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-marble-900">
                 Transformamos Pedras em Arte para seu Lar
               </h1>
-              <p className="text-lg md:text-xl text-marble-600 mb-8">
+              <p className="text-lg md:text-xl text-marble-700 mb-8">
                 Soluções em mármores e granitos com excelência em qualidade,
                 acabamento e pontualidade na entrega.
               </p>
@@ -29,7 +29,7 @@ const Index = () => {
                   </Button>
                 </Link>
                 <Link to="/contato">
-                  <Button className="w-full sm:w-auto bg-white hover:bg-gray-100 text-primary font-medium px-6 py-3 rounded-md border border-marble-300">
+                  <Button className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white font-medium px-6 py-3 rounded-md border border-marble-300">
                     Fale Conosco <Phone className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
@@ -97,7 +97,7 @@ const Index = () => {
 
             <div className="text-center mt-12">
               <Link to="/servicos">
-                <Button className="bg-marble-100 hover:bg-marble-200 text-marble-800 font-medium px-6 py-3 rounded-md">
+                <Button className="bg-accent hover:bg-accent/90 text-white font-medium px-6 py-3 rounded-md">
                   Ver Todos os Serviços
                 </Button>
               </Link>
@@ -105,8 +105,8 @@ const Index = () => {
           </div>
         </section>
 
-        {/* Why Choose Us Section */}
-        <section className="py-16 md:py-24 bg-marble-50">
+        {/* Why Choose Us Section with marble background */}
+        <section className="py-16 md:py-24 bg-marble-cream">
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4 text-marble-800">
@@ -120,7 +120,7 @@ const Index = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               {/* Feature 1 */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="bg-secondary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <Check className="h-6 w-6 text-secondary" />
                 </div>
@@ -131,7 +131,7 @@ const Index = () => {
               </div>
 
               {/* Feature 2 */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="bg-secondary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <Check className="h-6 w-6 text-secondary" />
                 </div>
@@ -142,7 +142,7 @@ const Index = () => {
               </div>
 
               {/* Feature 3 */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="bg-secondary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <Check className="h-6 w-6 text-secondary" />
                 </div>
@@ -153,7 +153,7 @@ const Index = () => {
               </div>
 
               {/* Feature 4 */}
-              <div className="bg-white p-6 rounded-lg shadow-sm">
+              <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
                 <div className="bg-secondary/10 w-12 h-12 rounded-full flex items-center justify-center mb-4">
                   <Check className="h-6 w-6 text-secondary" />
                 </div>
@@ -166,14 +166,14 @@ const Index = () => {
           </div>
         </section>
 
-        {/* CTA Section */}
-        <section className="py-16 md:py-24 bg-primary text-white">
+        {/* CTA Section with gradient background */}
+        <section className="py-16 md:py-24 bg-gold-gradient text-white">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-primary">
                 Pronto para Transformar seu Espaço?
               </h2>
-              <p className="text-xl mb-8 text-gray-200">
+              <p className="text-xl mb-8 text-marble-700">
                 Entre em contato e solicite um orçamento sem compromisso. Nossa equipe está pronta para atender às suas necessidades.
               </p>
               <div className="flex flex-col sm:flex-row justify-center gap-4">
@@ -183,7 +183,7 @@ const Index = () => {
                   </Button>
                 </Link>
                 <Link to="/contato">
-                  <Button className="w-full sm:w-auto bg-transparent hover:bg-white/10 text-white font-medium px-6 py-3 rounded-md border border-white/30">
+                  <Button className="w-full sm:w-auto bg-accent hover:bg-accent/90 text-white font-medium px-6 py-3 rounded-md border border-white/30">
                     Fale Conosco <Phone className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
