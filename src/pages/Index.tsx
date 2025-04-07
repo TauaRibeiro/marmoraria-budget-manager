@@ -7,7 +7,7 @@ const Index = () => {
   return <div className="flex flex-col min-h-screen">
       <Navbar />
       
-      <main className="flex-grow">
+      <main className="flex-grow bg-slate-500">
         {/* Hero Section with luxury marble gradient background */}
         <section className="relative bg-gradient-to-r from-marble-beige to-marble-gold py-20 md:py-28 bg-slate-500">
           <div className="container mx-auto px-4 bg-slate-100 py-0">
