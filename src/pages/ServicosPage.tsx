@@ -78,7 +78,7 @@ const ServicosPage = () => {
                 <div className="mt-auto">
                   <Button 
                     onClick={handleWhatsAppContact}
-                    className="w-full bg-secondary hover:bg-secondary/90"
+                    className="w-full bg-accent hover:bg-accent/90"
                   >
                     Solicitar Informações
                   </Button>
@@ -124,7 +124,7 @@ const ServicosPage = () => {
           <h2 className="text-2xl font-bold mb-6">Pronto para Transformar seu Ambiente?</h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/orcamento">
-              <Button size="lg" className="min-w-[200px] bg-secondary hover:bg-secondary/90">
+              <Button size="lg" className="min-w-[200px] bg-accent hover:bg-accent/90">
                 Solicitar Orçamento
               </Button>
             </Link>
