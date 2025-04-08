@@ -65,7 +65,7 @@ const Index = () => {
 
               {/* Service 2 */}
               <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
-                <div className="h-48 bg-[url('https://images.unsplash.com/photo-1603835398560-2d819d13a8c1')] bg-cover bg-center"></div>
+                <div className="h-48 bg-[url('https://www.deca.com.br/_next/image?url=https%3A%2F%2Fsite-deca-strapi-prd-bucket.s3.us-east-1.amazonaws.com%2Fo_que_e_um_lavabo_46a09da3ec.jpg&w=1080&q=75)] bg-cover bg-center"></div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold mb-3 text-marble-800">Banheiros e Lavabos</h3>
                   <p className="text-marble-600 mb-4">
